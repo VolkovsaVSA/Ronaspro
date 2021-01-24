@@ -8,18 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		68EFD17D25BDE6D1009CD298 /* RonasproApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD17C25BDE6D1009CD298 /* RonasproApp.swift */; };
-		68EFD17F25BDE6D1009CD298 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD17E25BDE6D1009CD298 /* ContentView.swift */; };
 		68EFD18125BDE6D3009CD298 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68EFD18025BDE6D3009CD298 /* Assets.xcassets */; };
 		68EFD18425BDE6D3009CD298 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68EFD18325BDE6D3009CD298 /* Preview Assets.xcassets */; };
+		68EFD18F25BDE6FA009CD298 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD18E25BDE6FA009CD298 /* LoginView.swift */; };
+		68EFD19225BDE71B009CD298 /* FbManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD19125BDE71B009CD298 /* FbManager.swift */; };
+		68EFD19525BDE727009CD298 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD19425BDE727009CD298 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		68EFD17925BDE6D1009CD298 /* Ronaspro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ronaspro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68EFD17C25BDE6D1009CD298 /* RonasproApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RonasproApp.swift; sourceTree = "<group>"; };
-		68EFD17E25BDE6D1009CD298 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		68EFD18025BDE6D3009CD298 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68EFD18325BDE6D3009CD298 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		68EFD18525BDE6D3009CD298 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68EFD18E25BDE6FA009CD298 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		68EFD19125BDE71B009CD298 /* FbManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FbManager.swift; sourceTree = "<group>"; };
+		68EFD19425BDE727009CD298 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,8 +56,10 @@
 		68EFD17B25BDE6D1009CD298 /* Ronaspro */ = {
 			isa = PBXGroup;
 			children = (
+				68EFD19425BDE727009CD298 /* AppDelegate.swift */,
 				68EFD17C25BDE6D1009CD298 /* RonasproApp.swift */,
-				68EFD17E25BDE6D1009CD298 /* ContentView.swift */,
+				68EFD18E25BDE6FA009CD298 /* LoginView.swift */,
+				68EFD19125BDE71B009CD298 /* FbManager.swift */,
 				68EFD18025BDE6D3009CD298 /* Assets.xcassets */,
 				68EFD18525BDE6D3009CD298 /* Info.plist */,
 				68EFD18225BDE6D3009CD298 /* Preview Content */,
@@ -138,7 +144,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68EFD17F25BDE6D1009CD298 /* ContentView.swift in Sources */,
+				68EFD18F25BDE6FA009CD298 /* LoginView.swift in Sources */,
+				68EFD19225BDE71B009CD298 /* FbManager.swift in Sources */,
+				68EFD19525BDE727009CD298 /* AppDelegate.swift in Sources */,
 				68EFD17D25BDE6D1009CD298 /* RonasproApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
