@@ -7,44 +7,110 @@
 
 import Foundation
 import FirebaseAuth
+import FirebaseFirestore
 
 
-class FbManager {
-    static let shared = FbManager()
+struct FbManager {
+    static let db = Firestore.firestore()
     
-    var currentUser: User?
-    
-    func registrUserWithEmail(email: String, password: String, repeatPassword: String, completion: @escaping (User?, String)->Void) {
-        
-        guard !email.isEmpty else {completion(nil, "Не заполнен email"); return}
-        guard !password.isEmpty && !repeatPassword.isEmpty && (password == repeatPassword) else {completion(nil, "Пароли не совпадают"); return}
-        
-        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            if let result = authResult {
-                completion(result.user, "Пользователь успешно содан")
-            }
-            if let createError = error {
-                completion(nil, "Ошибка создания пользователя (\(createError.localizedDescription)). Попробцйте позже.")
-            }
-        }
-        
-        
-       
+    enum Collections: String {
+        case users, projects
     }
     
-    func singIn(email: String, password: String, completion: @escaping (User?, Error?)->Void) {
-        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-            completion(result?.user, error)
+    struct Authenticaton {
+        static var currentUser: MyUserModel? 
+        
+        static func registrUserWithEmail(name: String,
+                                         email: String,
+                                         password: String,
+                                         repeatPassword: String,
+                                         staffPosition: StaffPosition,
+                                         completion: @escaping (User?, String)->Void) {
+            
+            guard !email.isEmpty else {
+                completion(nil, "Не заполнен email")
+                return
+            }
+            guard !password.isEmpty && !repeatPassword.isEmpty && (password == repeatPassword) else {
+                completion(nil, "Пароли не совпадают")
+                return
+            }
+            guard !name.isEmpty else {
+                completion(nil, "Не заполнено имя")
+                return
+            }
+            
+            Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                if let result = authResult {
+                    let changeRequest = result.user.createProfileChangeRequest()
+                    changeRequest.displayName = name
+                    changeRequest.commitChanges { (error) in
+                        
+                        if let setNameError = error {
+                            completion(result.user, "Не удалось установить имя юзера: \(setNameError.localizedDescription)")
+                        }
+                        
+                        let myUser = MyUserModel(id: result.user.uid,
+                                                 email: email,
+                                                 name: name,
+                                                 staffPositon: staffPosition)
+                        
+                        FbManager.Docs.createUserData(user: myUser) { userError in
+                            
+                            if let userDataError = userError {
+                                result.user.delete { _ in }
+                                completion(nil, "Ошибка создания пользователя (\(userDataError.localizedDescription)). Попробцйте позже.")
+                            } else {
+                                completion(result.user, "Пользователь успешно содан")
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                if let createError = error {
+                    completion(nil, "Ошибка создания пользователя (\(createError.localizedDescription)). Попробцйте позже.")
+                }
+            }
+            
+            
+           
+        }
+        
+        static func singIn(email: String, password: String, completion: @escaping (User?, Error?)->Void) {
+            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                completion(result?.user, error)
+            }
+        }
+        
+        static func logOut(completion: @escaping (Result<String, Error>)->Void) {
+            do {
+                try Auth.auth().signOut()
+                completion(.success("success"))
+                currentUser = nil
+                CurrentUserVM.shared.user = nil
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
     
-    func logOut(completion: @escaping (Result<String, Error>)->Void) {
-        do {
-            try Auth.auth().signOut()
-            completion(.success("success"))
-            currentUser = nil
-        } catch {
-            completion(.failure(error))
+    struct Docs {
+        static func createUserData(user: MyUserModel, completion: @escaping (Error?)->Void) {
+            db.collection(Collections.users.rawValue).document(user.id).setData(user.dictionary) { err in
+                completion(err)
+            }
         }
+        static func getUserData(id: String, completion: @escaping (Error?)->Void) {
+            db.collection(Collections.users.rawValue).document(id).getDocument { (snap, error) in
+                if let data = snap?.data() {
+                    CurrentUserVM.shared.user = MyUserModel(dictionary: data)
+                    print(CurrentUserVM.shared.user.debugDescription)
+                }
+                completion(error)
+            }
+        }
+        
     }
 }

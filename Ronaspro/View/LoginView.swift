@@ -12,27 +12,54 @@ struct LoginView: View {
     @State var password = ""
     @State var repeatPassword = ""
     @State var hidePass = true
-    @State var showMainView = false
     @State var registrationForm = false
     
     @State var alertMessage = ""
     @State var showAlert = false
     
+    @State var stafPosition = StaffPosition.manager
+   
+    @State private var sheet: ActiveSheet?
+    
     private func createUser() {
-        FbManager.shared.registrUserWithEmail(email: email, password: password, repeatPassword: repeatPassword) { (user, message) in
+        FbManager.Authenticaton.registrUserWithEmail(name: name, email: email, password: password, repeatPassword: repeatPassword, staffPosition: stafPosition) { (user, message) in
             if let currentUser = user {
-                FbManager.shared.currentUser = currentUser
+                
+                FbManager.Docs.getUserData(id: currentUser.uid) { err in
+                    if let userError = err {
+                        alertMessage = userError.localizedDescription
+//                        FbManager.Authenticaton.currentUser = nil
+                    }
+                    
+                    alertMessage = message
+                    showAlert = true
+                }
+                
+                //FbManager.Authenticaton.currentUser = currentUser
             }
-            alertMessage = message
-            showAlert = true
+            
         }
     }
     
     private func singIn() {
-        FbManager.shared.singIn(email: email, password: password) { (user, _) in
+        FbManager.Authenticaton.singIn(email: email, password: password) { (user, error) in
+            
             if let currentUser = user {
-                FbManager.shared.currentUser = currentUser
-                showMainView = true
+                
+                FbManager.Docs.getUserData(id: currentUser.uid) { err in
+                    if let userError = err {
+                        alertMessage = userError.localizedDescription
+                        showAlert = true
+                    } else {
+                        //FbManager.Authenticaton.currentUser = currentUser
+                        sheet = .showMainView
+                    }
+                }
+                
+                
+            } else {
+                alertMessage = error!.localizedDescription
+                showAlert = true
             }
         }
     }
@@ -63,6 +90,17 @@ struct LoginView: View {
                                   keyboardType: .default,
                                   autocapitalization: .sentences,
                                   text: $name)
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Должность")
+                            .font(.system(size: 12, weight: .regular, design: .default))
+                       
+                        Button(action: {
+                            sheet = .staffPositionList
+                        }, label: {
+                            Text(stafPosition.rawValue)
+                        })
+                        Divider()
+                    }
                 }
                 
                 
@@ -86,12 +124,12 @@ struct LoginView: View {
                         .font(.system(size: 12, weight: .regular, design: .default))
                         .underline()
                 }
-                
             }
             Spacer()
             HStack(spacing:2) {
                 Button(action: {
                     withAnimation(Animation.spring()) {
+                        FbManager.Authenticaton.currentUser = nil
                         registrationForm = true
                     }
                 }, label: {
@@ -116,22 +154,37 @@ struct LoginView: View {
             
         }
         .padding([.horizontal], 30)
-        .fullScreenCover(isPresented: $showMainView, content: {
-            MainView()
-        })
+        .fullScreenCover(item: $sheet) { item in
+            switch item {
+            case .staffPositionList:
+                StaffPositionListView(poistion: $stafPosition)
+            case .showMainView:
+                MainView()
+            }
+        }
         .alert(isPresented: $showAlert, content: {
-            Alert(title: Text(FbManager.shared.currentUser != nil ? "Успех" : "Ошибка"),
+            Alert(title: Text(CurrentUserVM.shared.user != nil ? "Успех" : "Ошибка"),
                   message: Text(alertMessage),
                   dismissButton: .default(Text("OK"), action: {
-                    if FbManager.shared.currentUser != nil {
-                        showMainView = true
+                    if CurrentUserVM.shared.user != nil {
+                        sheet = .showMainView
                     }
                   }))
         })
+        
         .onAppear() {
             if Auth.auth().currentUser != nil {
-                FbManager.shared.currentUser = Auth.auth().currentUser
-                showMainView = true
+                print(#function)
+                FbManager.Docs.getUserData(id: Auth.auth().currentUser!.uid) { error in
+                    print(#function)
+                    if error == nil {
+                        sheet = .showMainView
+                        print("showMainView")
+                    } else {
+                        try? Auth.auth().signOut()
+                    }
+                }
+                
             }
         }
             

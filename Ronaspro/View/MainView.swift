@@ -24,7 +24,7 @@ struct MainView: View {
                         Text("Проекты")
                     }
                     .tag(0)
-                Text(FbManager.shared.currentUser?.email ?? "no user")
+                ProfileView(user: CurrentUserVM.shared.user!)
                     .tabItem {
                         Image(systemName: "person.fill")
                         Text("Профиль")
@@ -42,7 +42,7 @@ struct MainView: View {
                     
                     trailing:
                         Button("Logout") {
-                            FbManager.shared.logOut { result in
+                            FbManager.Authenticaton.logOut { result in
                                 switch result {
                                 case .success(_):
                                     presentationMode.wrappedValue.dismiss()

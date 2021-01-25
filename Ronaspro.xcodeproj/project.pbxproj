@@ -18,6 +18,12 @@
 		68EFD1CF25BE0843009CD298 /* BigLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD1CE25BE0843009CD298 /* BigLogoView.swift */; };
 		68EFD1D725BE106C009CD298 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD1D625BE106C009CD298 /* InputTextView.swift */; };
 		68EFD1DC25BE131C009CD298 /* InputPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD1DB25BE131C009CD298 /* InputPasswordView.swift */; };
+		68EFD1DF25BE1C48009CD298 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD1DE25BE1C48009CD298 /* ProfileView.swift */; };
+		68EFD1E625BE2284009CD298 /* StaffPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD1E525BE2284009CD298 /* StaffPosition.swift */; };
+		68EFD1EC25BE265D009CD298 /* ActiveSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD1EB25BE265D009CD298 /* ActiveSheet.swift */; };
+		68EFD1F025BE26C0009CD298 /* MyUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD1EF25BE26C0009CD298 /* MyUserModel.swift */; };
+		68EFD22125BE3CF1009CD298 /* StaffPositionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD22025BE3CF1009CD298 /* StaffPositionListView.swift */; };
+		68EFD22725BE416B009CD298 /* CurrentUserVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD22625BE416B009CD298 /* CurrentUserVM.swift */; };
 		ECA0758DA0E58FC166265CE9 /* Pods_Ronaspro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDB50BF12A67E5EDEC7D1EE /* Pods_Ronaspro.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +42,12 @@
 		68EFD1CE25BE0843009CD298 /* BigLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigLogoView.swift; sourceTree = "<group>"; };
 		68EFD1D625BE106C009CD298 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		68EFD1DB25BE131C009CD298 /* InputPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPasswordView.swift; sourceTree = "<group>"; };
+		68EFD1DE25BE1C48009CD298 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		68EFD1E525BE2284009CD298 /* StaffPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffPosition.swift; sourceTree = "<group>"; };
+		68EFD1EB25BE265D009CD298 /* ActiveSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveSheet.swift; sourceTree = "<group>"; };
+		68EFD1EF25BE26C0009CD298 /* MyUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUserModel.swift; sourceTree = "<group>"; };
+		68EFD22025BE3CF1009CD298 /* StaffPositionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffPositionListView.swift; sourceTree = "<group>"; };
+		68EFD22625BE416B009CD298 /* CurrentUserVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserVM.swift; sourceTree = "<group>"; };
 		9F34207FDFC27C79B056A530 /* Pods-Ronaspro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ronaspro.debug.xcconfig"; path = "Target Support Files/Pods-Ronaspro/Pods-Ronaspro.debug.xcconfig"; sourceTree = "<group>"; };
 		DEDB50BF12A67E5EDEC7D1EE /* Pods_Ronaspro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ronaspro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -83,6 +95,10 @@
 			children = (
 				68EFD19425BDE727009CD298 /* AppDelegate.swift */,
 				68EFD17C25BDE6D1009CD298 /* RonasproApp.swift */,
+				68EFD1E525BE2284009CD298 /* StaffPosition.swift */,
+				68EFD1EB25BE265D009CD298 /* ActiveSheet.swift */,
+				68EFD22625BE416B009CD298 /* CurrentUserVM.swift */,
+				68EFD22425BE4150009CD298 /* Model */,
 				68EFD1CB25BE078B009CD298 /* View */,
 				68EFD19125BDE71B009CD298 /* FbManager.swift */,
 				68EFD18025BDE6D3009CD298 /* Assets.xcassets */,
@@ -106,6 +122,7 @@
 			children = (
 				68EFD18E25BDE6FA009CD298 /* LoginView.swift */,
 				68EFD1C525BDF183009CD298 /* MainView.swift */,
+				68EFD1DE25BE1C48009CD298 /* ProfileView.swift */,
 				68EFD1D925BE126D009CD298 /* SupportView */,
 			);
 			path = View;
@@ -114,11 +131,20 @@
 		68EFD1D925BE126D009CD298 /* SupportView */ = {
 			isa = PBXGroup;
 			children = (
-				68EFD1CE25BE0843009CD298 /* BigLogoView.swift */,
 				68EFD1D625BE106C009CD298 /* InputTextView.swift */,
 				68EFD1DB25BE131C009CD298 /* InputPasswordView.swift */,
+				68EFD22025BE3CF1009CD298 /* StaffPositionListView.swift */,
+				68EFD1CE25BE0843009CD298 /* BigLogoView.swift */,
 			);
 			path = SupportView;
+			sourceTree = "<group>";
+		};
+		68EFD22425BE4150009CD298 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				68EFD1EF25BE26C0009CD298 /* MyUserModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		7DC4972AEF42DB672512B95B /* Pods */ = {
@@ -245,11 +271,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				68EFD1DC25BE131C009CD298 /* InputPasswordView.swift in Sources */,
+				68EFD1DF25BE1C48009CD298 /* ProfileView.swift in Sources */,
 				68EFD1D725BE106C009CD298 /* InputTextView.swift in Sources */,
 				68EFD18F25BDE6FA009CD298 /* LoginView.swift in Sources */,
+				68EFD22125BE3CF1009CD298 /* StaffPositionListView.swift in Sources */,
+				68EFD1F025BE26C0009CD298 /* MyUserModel.swift in Sources */,
 				68EFD19225BDE71B009CD298 /* FbManager.swift in Sources */,
+				68EFD22725BE416B009CD298 /* CurrentUserVM.swift in Sources */,
+				68EFD1EC25BE265D009CD298 /* ActiveSheet.swift in Sources */,
 				68EFD19525BDE727009CD298 /* AppDelegate.swift in Sources */,
 				68EFD1C625BDF183009CD298 /* MainView.swift in Sources */,
+				68EFD1E625BE2284009CD298 /* StaffPosition.swift in Sources */,
 				68EFD1CF25BE0843009CD298 /* BigLogoView.swift in Sources */,
 				68EFD17D25BDE6D1009CD298 /* RonasproApp.swift in Sources */,
 			);
