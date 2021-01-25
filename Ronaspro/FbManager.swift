@@ -89,7 +89,7 @@ struct FbManager {
                 try Auth.auth().signOut()
                 completion(.success("success"))
                 currentUser = nil
-                CurrentUserVM.shared.user = nil
+                FbManager.Authenticaton.currentUser = nil
             } catch {
                 completion(.failure(error))
             }
@@ -105,10 +105,34 @@ struct FbManager {
         static func getUserData(id: String, completion: @escaping (Error?)->Void) {
             db.collection(Collections.users.rawValue).document(id).getDocument { (snap, error) in
                 if let data = snap?.data() {
-                    CurrentUserVM.shared.user = MyUserModel(dictionary: data)
-                    print(CurrentUserVM.shared.user.debugDescription)
+                    FbManager.Authenticaton.currentUser = MyUserModel(dictionary: data)
+                    //print(FbManager.Authenticaton.currentUser.debugDescription)
                 }
                 completion(error)
+            }
+        }
+        static func getAllUsers(completion: @escaping ([MyUserModel])->Void) {
+            db.collection(Collections.users.rawValue).getDocuments { (snapshot, error) in
+                var users = [MyUserModel]()
+                if let snaps = snapshot {
+                    for doc in snaps.documents {
+                        if let user = MyUserModel(dictionary: doc.data()) {
+                            users.append(user)
+                        }
+                    }
+                    completion(users)
+                } else {
+                    print("error: \(error?.localizedDescription)")
+                }
+            }
+        }
+        static func createTask(task: TaskModel, completion: @escaping (_ title: String, _ message: String)->Void) {
+            db.collection(Collections.projects.rawValue).document(task.id).setData(task.dictionary) { (error) in
+                if let taskError = error {
+                    completion("Ошибка", "Ошибка сохранения: \(taskError.localizedDescription). Повторите позже.")
+                } else {
+                    completion("Успешно", "Задача успешно сохранена и отправлена исполнителям.")
+                }
             }
         }
         

@@ -5,7 +5,7 @@
 //  Created by Sergey Volkov on 25.01.2021.
 //
 
-import Foundation
+import SwiftUI
 
 enum ActiveSheet: Identifiable {
     
@@ -14,4 +14,12 @@ enum ActiveSheet: Identifiable {
         hashValue
     }
 }
+
+
+extension View {
+    func endEditing(_ force: Bool) {
+        UIApplication.shared.windows.forEach { $0.endEditing(force)}
+    }
+}
+
 

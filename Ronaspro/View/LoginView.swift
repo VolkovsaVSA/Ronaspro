@@ -28,14 +28,12 @@ struct LoginView: View {
                 FbManager.Docs.getUserData(id: currentUser.uid) { err in
                     if let userError = err {
                         alertMessage = userError.localizedDescription
-//                        FbManager.Authenticaton.currentUser = nil
                     }
                     
                     alertMessage = message
                     showAlert = true
                 }
                 
-                //FbManager.Authenticaton.currentUser = currentUser
             }
             
         }
@@ -71,7 +69,7 @@ struct LoginView: View {
         
         VStack {
 
-            BigLogoView(width: 100, height: 100, font: .title2, textPadding: 4)
+            BigLogoView(width: 100, height: 100, font: .title2, textPadding: 4, textLogo: "РОНАСПРРО")
             .padding(.vertical, 60)
             
             VStack(spacing: 12) {
@@ -163,10 +161,10 @@ struct LoginView: View {
             }
         }
         .alert(isPresented: $showAlert, content: {
-            Alert(title: Text(CurrentUserVM.shared.user != nil ? "Успех" : "Ошибка"),
+            Alert(title: Text(FbManager.Authenticaton.currentUser != nil ? "Успех" : "Ошибка"),
                   message: Text(alertMessage),
                   dismissButton: .default(Text("OK"), action: {
-                    if CurrentUserVM.shared.user != nil {
+                    if FbManager.Authenticaton.currentUser != nil {
                         sheet = .showMainView
                     }
                   }))
@@ -174,12 +172,9 @@ struct LoginView: View {
         
         .onAppear() {
             if Auth.auth().currentUser != nil {
-                print(#function)
                 FbManager.Docs.getUserData(id: Auth.auth().currentUser!.uid) { error in
-                    print(#function)
                     if error == nil {
                         sheet = .showMainView
-                        print("showMainView")
                     } else {
                         try? Auth.auth().signOut()
                     }

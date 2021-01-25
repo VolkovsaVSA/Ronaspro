@@ -11,6 +11,7 @@ import FirebaseAuth
 struct ProfileView: View {
     
     @State var user: MyUserModel
+    @State var showAddTaskView = false
     
     var body: some View {
         VStack {
@@ -26,8 +27,26 @@ struct ProfileView: View {
                 .font(.largeTitle)
                 .padding()
             Text(user.email)
+                
             Spacer()
+            
+            if FbManager.Authenticaton.currentUser!.staffPositon == .manager {
+                Button(action: {
+                    showAddTaskView = true
+                }, label: {
+                    Image(systemName: "plus.app.fill")
+                        .resizable()
+                        .frame(width: 50, height: 50, alignment: .center)
+                        .foregroundColor(Color.init(red: 51/255, green: 47/255, blue: 93/255))
+                })
+                .padding(.bottom, 30)
+            }
+            
+            
         }
+        .sheet(isPresented: $showAddTaskView, content: {
+            AddTaskView()
+        })
     }
 }
 

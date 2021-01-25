@@ -13,6 +13,7 @@ struct BigLogoView: View {
     @State var height: CGFloat
     @State var font: Font
     @State var textPadding: CGFloat
+    @State var textLogo: String
     
     var body: some View {
         VStack {
@@ -20,7 +21,7 @@ struct BigLogoView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: width, height: height, alignment: .center)
-            Text("РОНАСМЕТЫ")
+            Text(textLogo)
                 .padding(textPadding)
                 .foregroundColor(Color.init(red: 51/255, green: 47/255, blue: 93/255))
                 .font(font)
@@ -30,6 +31,6 @@ struct BigLogoView: View {
 
 struct BigLogoView_Previews: PreviewProvider {
     static var previews: some View {
-        BigLogoView(width: 100, height: 100, font: .title2, textPadding: 0)
+        BigLogoView(width: 100, height: 100, font: .title2, textPadding: 0, textLogo: "РОНАСПРО")
     }
 }

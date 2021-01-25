@@ -10,6 +10,8 @@ import SwiftUI
 struct MainView: View {
     
     @Environment(\.presentationMode) private var presentationMode
+    let screenWidth = UIScreen.main.bounds.width
+    let logoSize: CGFloat = 26
 
     @State var selectedTab = 1
     
@@ -24,7 +26,7 @@ struct MainView: View {
                         Text("Проекты")
                     }
                     .tag(0)
-                ProfileView(user: CurrentUserVM.shared.user!)
+                ProfileView(user: FbManager.Authenticaton.currentUser!)
                     .tabItem {
                         Image(systemName: "person.fill")
                         Text("Профиль")
@@ -40,6 +42,10 @@ struct MainView: View {
 
                 .navigationBarItems(
                     
+                    leading:
+                        BigLogoView(width: logoSize, height: logoSize, font: Font.system(size: 10), textPadding: 0, textLogo: "РОНАСМЕТЫ")
+                        .offset(x: screenWidth/2 - logoSize * 2)
+                       ,
                     trailing:
                         Button("Logout") {
                             FbManager.Authenticaton.logOut { result in
@@ -60,8 +66,3 @@ struct MainView: View {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
-    }
-}
