@@ -9,18 +9,22 @@ import SwiftUI
 
 struct MainView: View {
     
+    init() {
+        UITabBar.appearance().isTranslucent = false
+        UITabBar.appearance().barTintColor = UIColor(Color("tabBarColor"))
+    }
+    
     @Environment(\.presentationMode) private var presentationMode
-    let screenWidth = UIScreen.main.bounds.width
-    let logoSize: CGFloat = 26
+//    let screenWidth = UIScreen.main.bounds.width
+//    let logoSize: CGFloat = 26
 
     @State var selectedTab = 1
     
     var body: some View {
         
         NavigationView {
-            
             TabView(selection: $selectedTab) {
-                Text("Page1")
+                ProjectView()
                     .tabItem {
                         Image(systemName: "list.dash")
                         Text("Проекты")
@@ -32,19 +36,18 @@ struct MainView: View {
                         Text("Профиль")
                     }
                     .tag(1)
-                Text("Page3")
+                Text("Message")
                     .tabItem {
                         Image(systemName: "envelope.fill")
                         Text("Сообщения")
                     }
                     .tag(2)
             }
-
-                .navigationBarItems(
-                    
+            .accentColor(.white)
+            .navigationBarItems(
                     leading:
-                        BigLogoView(width: logoSize, height: logoSize, font: Font.system(size: 10), textPadding: 0, textLogo: "РОНАСМЕТЫ")
-                        .offset(x: screenWidth/2 - logoSize * 2)
+                        BigLogoView(width: AppSettings.NavigationBar.logoSize, height: AppSettings.NavigationBar.logoSize, font: Font.system(size: 10), textPadding: 0, textLogo: "РОНАСМЕТЫ")
+                        .offset(x: AppSettings.screenWidth/2 - AppSettings.NavigationBar.logoSize * 2)
                        ,
                     trailing:
                         Button("Logout") {

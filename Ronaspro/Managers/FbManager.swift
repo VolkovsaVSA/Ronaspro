@@ -14,8 +14,18 @@ struct FbManager {
     static let db = Firestore.firestore()
     
     enum Collections: String {
-        case users, projects
+        case users, projects, answers
     }
+    enum UserFileds: String {
+        case id, email, name, staffPositon
+    }
+    enum TaskFileds: String {
+        case id, title, description, ownerID, dateAdded, responsibles, answers, totalCost
+    }
+    enum AnswerFileds: String {
+        case id, parentTask, responsibleID, totalCost, workNames, workCosts
+    }
+    
     
     struct Authenticaton {
         static var currentUser: MyUserModel? 
@@ -122,7 +132,7 @@ struct FbManager {
                     }
                     completion(users)
                 } else {
-                    print("error: \(error?.localizedDescription)")
+                    print("error: \(String(describing: error?.localizedDescription))")
                 }
             }
         }
@@ -132,6 +142,56 @@ struct FbManager {
                     completion("Ошибка", "Ошибка сохранения: \(taskError.localizedDescription). Повторите позже.")
                 } else {
                     completion("Успешно", "Задача успешно сохранена и отправлена исполнителям.")
+                }
+            }
+        }
+        static func addProjectListenerResponsible(id: String, completion: @escaping ([TaskModel], Error?)->Void) {
+            var tasks = [TaskModel]()
+            db.collection(Collections.projects.rawValue)
+                .whereField(FbManager.TaskFileds.responsibles.rawValue, arrayContains: id)
+                .addSnapshotListener { (snapshot, error) in
+                    let sem = DispatchSemaphore(value: 1)
+                    if let snap = snapshot {
+                        tasks = []
+                        for x in snap.documents {
+                            if let task = TaskModel(dictionary: x.data()) {
+                                tasks.append(task)
+                            }
+                        }
+                        sem.signal()
+                    }
+                    sem.wait()
+                    completion(tasks, error)
+                }
+        }
+        static func addProjectListenerOwner(id: String, completion: @escaping ([TaskModel], Error?)->Void) {
+            var tasks = [TaskModel]()
+            db.collection(Collections.projects.rawValue)
+                .whereField(FbManager.TaskFileds.ownerID.rawValue, isEqualTo: id)
+                .addSnapshotListener { (snapshot, error) in
+                    let sem = DispatchSemaphore(value: 1)
+                    if let snap = snapshot {
+                        tasks = []
+                        for x in snap.documents {
+                            if let task = TaskModel(dictionary: x.data()) {
+                                print("create task")
+                                tasks.append(task)
+                            }
+                        }
+                        print("tasks: \(tasks.description)")
+                        sem.signal()
+                    }
+                    sem.wait()
+                    completion(tasks, error)
+                }
+        }
+        static func createAnswer(answer: TaskAnswerModel, completion: @escaping (Error?)->Void) {
+            db.collection(Collections.answers.rawValue).document(answer.id).setData(answer.dictionary) { error in
+                if let err = error {
+                    completion(err)
+                } else {
+                    db.collection(Collections.projects.rawValue).document(answer.parentTask)
+                        .updateData(["answers.\(answer.id)" : FbManager.Authenticaton.currentUser!.id])
                 }
             }
         }

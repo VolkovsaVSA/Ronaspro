@@ -59,7 +59,7 @@ struct AddTaskView: View {
                             Image(systemName: "doc.badge.plus")
                                 .resizable()
                                 .frame(width: 22, height: 24, alignment: .center)
-                                .foregroundColor(Color.init(red: 51/255, green: 47/255, blue: 93/255))
+                                .foregroundColor(.accentColor)
                             
                         })
                     }
@@ -88,12 +88,12 @@ struct AddTaskView: View {
                                 Image(systemName: "checkmark.square")
                                     .resizable()
                                     .frame(width: 20, height: 20, alignment: .center)
-                                    .foregroundColor(Color.init(red: 51/255, green: 47/255, blue: 93/255))
+                                    .foregroundColor(.accentColor)
                             } else {
                                 Image(systemName: "plus.app.fill")
                                     .resizable()
                                     .frame(width: 20, height: 20, alignment: .center)
-                                    .foregroundColor(Color.init(red: 51/255, green: 47/255, blue: 93/255))
+                                    .foregroundColor(.accentColor)
                             }
                             
                         })
@@ -148,7 +148,9 @@ struct AddTaskView: View {
                                          description: taskText,
                                          ownerID: FbManager.Authenticaton.currentUser!.id,
                                          dateAdded: Date(),
-                                         responsibles: Array(responsibles))
+                                         responsibles: Array(responsibles),
+                                         answers: [:],
+                                         totalCost: 0)
                     
                     FbManager.Docs.createTask(task: task) {  (title, message)  in
                         alertMessage = (title, message)
@@ -159,7 +161,7 @@ struct AddTaskView: View {
                     Image(systemName: "checkmark.square.fill")
                         .resizable()
                         .frame(width: 20, height: 20, alignment: .center)
-                        .foregroundColor(Color.init(red: 51/255, green: 47/255, blue: 93/255))
+                        .foregroundColor(.accentColor)
                 }))
             .environment(\.editMode, $editMode)
         }

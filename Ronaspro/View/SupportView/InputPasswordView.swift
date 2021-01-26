@@ -35,7 +35,7 @@ struct InputPasswordView: View {
                     hidePass.toggle()
                 }, label: {
                     Image(systemName: hidePass ? "eye.slash.fill" : "eye.fill")
-                        .foregroundColor(hidePass ? Color.secondary : Color.init(red: 51/255, green: 47/255, blue: 93/255))
+                        .foregroundColor(hidePass ? Color.secondary : Color.accentColor)
                 })
             }
             Divider()

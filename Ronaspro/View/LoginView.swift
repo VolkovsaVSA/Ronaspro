@@ -70,7 +70,7 @@ struct LoginView: View {
         VStack {
 
             BigLogoView(width: 100, height: 100, font: .title2, textPadding: 4, textLogo: "РОНАСПРРО")
-            .padding(.vertical, 60)
+            .padding(.vertical, 40)
             
             VStack(spacing: 12) {
                 InputTextView(title: "E-mail",
@@ -115,7 +115,7 @@ struct LoginView: View {
                         
                     }
                     .frame(width: 48, height: 48, alignment: .center)
-                    .background(Color.init(red: 51/255, green: 47/255, blue: 93/255))
+                    .background(Color.accentColor)
                     .foregroundColor(.white)
                     .cornerRadius(12)
                     Text("Забыли пароль?")
@@ -133,7 +133,7 @@ struct LoginView: View {
                 }, label: {
                     Text("Регистрация")
                         .underline(registrationForm)
-                        .foregroundColor(registrationForm ? Color.init(red: 255/255, green: 76/255, blue: 60/255) : Color(UIColor.label))
+                        .foregroundColor(registrationForm ? Color.accentColor : Color(UIColor.label))
                         .font(.system(size: 15, weight: .light, design: .default))
                 })
                 Text("/")
@@ -144,7 +144,7 @@ struct LoginView: View {
                 }, label: {
                     Text("Вход")
                         .underline(!registrationForm)
-                        .foregroundColor(!registrationForm ? Color.init(red: 255/255, green: 76/255, blue: 60/255) : Color(UIColor.label))
+                        .foregroundColor(!registrationForm ? Color.accentColor : Color(UIColor.label))
                         .font(.system(size: 15, weight: .light, design: .default))
                 })
             }

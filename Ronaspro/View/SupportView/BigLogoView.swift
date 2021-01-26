@@ -23,7 +23,7 @@ struct BigLogoView: View {
                 .frame(width: width, height: height, alignment: .center)
             Text(textLogo)
                 .padding(textPadding)
-                .foregroundColor(Color.init(red: 51/255, green: 47/255, blue: 93/255))
+                .foregroundColor(Color.accentColor)
                 .font(font)
         }
     }
