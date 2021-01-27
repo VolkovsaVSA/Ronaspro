@@ -45,7 +45,7 @@ struct ProfileView: View {
             
         }
         .sheet(isPresented: $showAddTaskView, content: {
-            AddTaskView()
+            AddProjectView()
         })
     }
 }

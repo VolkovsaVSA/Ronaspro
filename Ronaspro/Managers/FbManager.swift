@@ -169,16 +169,14 @@ struct FbManager {
             db.collection(Collections.projects.rawValue)
                 .whereField(FbManager.TaskFileds.ownerID.rawValue, isEqualTo: id)
                 .addSnapshotListener { (snapshot, error) in
-                    let sem = DispatchSemaphore(value: 1)
+                    let sem = DispatchSemaphore(value: 0)
                     if let snap = snapshot {
                         tasks = []
                         for x in snap.documents {
                             if let task = TaskModel(dictionary: x.data()) {
-                                print("create task")
                                 tasks.append(task)
                             }
                         }
-                        print("tasks: \(tasks.description)")
                         sem.signal()
                     }
                     sem.wait()
@@ -194,6 +192,23 @@ struct FbManager {
                         .updateData(["answers.\(answer.id)" : FbManager.Authenticaton.currentUser!.id])
                 }
             }
+        }
+        static func getAnswers(task: TaskModel, completion: @escaping ([TaskAnswerModel], Error?)->Void) {
+
+            db.collection(Collections.answers.rawValue).whereField(AnswerFileds.parentTask.rawValue, isEqualTo: task.id).addSnapshotListener({ (snapshot, answerError) in
+                
+                var answers = [TaskAnswerModel]()
+                if let dataArray = snapshot {
+                    dataArray.documents.forEach { doc in
+                        if let ans = TaskAnswerModel(dictionary: doc.data()) {
+                            answers.append(ans)
+                        }
+                    }
+                }
+                completion(answers, answerError)
+            })
+            
+            
         }
         
     }

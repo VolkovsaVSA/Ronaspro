@@ -30,6 +30,7 @@ struct AnswerView: View {
                 Text("Описание: \(task.description)")
                     .fontWeight(.thin)
                     .multilineTextAlignment(.leading)
+                Text("Выполнить до: \(DateFormatter.localizedString(from: task.dateEnd, dateStyle: .medium, timeStyle: .medium))")
             }
             .padding(.horizontal)
             
@@ -104,10 +105,17 @@ struct AnswerView: View {
             trailing:
                 
                 Button(action: {
-                    
-                    FbManager.Docs.createAnswer(answer: TaskAnswerModel(id: UUID().uuidString, parentTask: task.id, responsibleID: FbManager.Authenticaton.currentUser!.id, totalCost: answer.totalCost(), workNames: answer.workNames, workCosts: answer.costsInDouble)) { error in
-                        
-                        
+                    FbManager.Docs.createAnswer(answer:
+                                        TaskAnswerModel(
+                                            id: UUID().uuidString,
+                                            parentTask: task.id,
+                                            totalCost: answer.totalCost(),
+                                            workNames: answer.workNames,
+                                            workCosts: answer.costsInDouble,
+                                            responsibleID: FbManager.Authenticaton.currentUser!.id,
+                                            responsibleName: FbManager.Authenticaton.currentUser!.name,
+                                            responsibleEmail: FbManager.Authenticaton.currentUser!.email,
+                                            responsibleStaffPositon: FbManager.Authenticaton.currentUser!.staffPositon)) { error in
                         if let answerError = error {
                             alertTitle = "Ошибка отправки расчёта"
                             alertMessage = answerError.localizedDescription
@@ -132,11 +140,5 @@ struct AnswerView: View {
         })
         
         
-    }
-}
-
-struct AnswerView_Previews: PreviewProvider {
-    static var previews: some View {
-        AnswerView(task: TaskModel(id: "1", title: "Проект Х", description: "Что-то очень важное", ownerID: "xxx", dateAdded: Date(), responsibles: [], answers: ["x":"x"], totalCost: 0))
     }
 }

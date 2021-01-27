@@ -14,7 +14,10 @@ struct MyUserModel: Identifiable , Hashable{
     var staffPositon: StaffPosition
     
     var dictionary: [String: Any] {
-        return ["id": id, "email": email, "name": name, "staffPositon": staffPositon.rawValue]
+        return ["id": id,
+                "email": email,
+                "name": name,
+                "staffPositon": staffPositon.rawValue]
     }
     
     init(id: String, email: String, name: String, staffPositon: StaffPosition) {
@@ -34,11 +37,8 @@ struct MyUserModel: Identifiable , Hashable{
         if let emailInit = dictionary["email"] as? String {email = emailInit} else {return nil}
         if let nameInit = dictionary["name"] as? String {name = nameInit} else {return nil}
         
-        print(dictionary["staffPositon"])
-        
         if let staffPositonInit = dictionary["staffPositon"] as? String {
             if let staff = StaffPosition(rawValue: staffPositonInit) {
-                print(staff)
                 staffPositon = staff
             } else { return nil }
         } else { return nil }

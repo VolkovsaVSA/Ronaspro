@@ -17,6 +17,7 @@ struct ProjectView: View {
     fileprivate func getTasks() {
         if FbManager.Authenticaton.currentUser!.staffPositon == .manager {
             FbManager.Docs.addProjectListenerOwner(id: FbManager.Authenticaton.currentUser!.id) { (tasks, error) in
+                
                 userTasks = tasks
                 if let taskError = error {
                     errorsMessage = taskError.localizedDescription
@@ -24,6 +25,7 @@ struct ProjectView: View {
             }
         } else {
             FbManager.Docs.addProjectListenerResponsible(id: FbManager.Authenticaton.currentUser!.id) { (tasks, error) in
+
                 userTasks = tasks
                 if let taskError = error {
                     errorsMessage = taskError.localizedDescription
@@ -36,17 +38,27 @@ struct ProjectView: View {
     }
     fileprivate func createProjectDetail(task: TaskModel)-> AnyView {
         if FbManager.Authenticaton.currentUser!.staffPositon == .manager {
-            return AnyView(Text("Managers view"))
+            return AnyView(ReportView(task: task))
         } else {
             var answerView = AnyView(AnswerView(task: task))
-            task.answers.forEach { answer in
-                if answer.value == FbManager.Authenticaton.currentUser!.id {
-                    answerView = AnyView(Text("Вы уже отправили расчёт"))
-                }
+            if checkAnswer(task: task) {
+                answerView = AnyView(Text("Вы отправили расчёт"))
             }
             return answerView
         }
     }
+    fileprivate func checkAnswer(task: TaskModel)->Bool {
+        var check = false
+        task.answers.forEach { answer in
+            if answer.value == FbManager.Authenticaton.currentUser!.id {
+                check = true
+            }
+        }
+        return check
+    }
+    
+    
+    
     
     var body: some View {
         
@@ -69,11 +81,24 @@ struct ProjectView: View {
                             }
                             .foregroundColor(Color(UIColor.label))
                             Spacer()
-//                            Text("\(task.answers.count) %")
-                            Text("\(calcTaskTotalProgress(task: task))%" )
-                                .font(.system(size: 26))
-                                .fontWeight(.bold)
-                                .foregroundColor(Color(UIColor.label))
+                            
+                            if FbManager.Authenticaton.currentUser!.staffPositon == .manager {
+                                Text("\(calcTaskTotalProgress(task: task))%" )
+                                    .font(.system(size: 16))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color(UIColor.label))
+                            } else {
+                                if checkAnswer(task: task) {
+                                    IconImageView(image: "checkmark.circle.fill", color: Color.green, imageScale: 30)
+                                        .shadow(color: Color(UIColor.tertiaryLabel), radius: 4, x: 4, y: 4)
+                                        .padding(.trailing, 10)
+                                } else {
+                                    IconImageView(image: "exclamationmark.circle.fill", color: Color.yellow, imageScale: 30)
+                                        .shadow(color: Color(UIColor.tertiaryLabel), radius: 4, x: 4, y: 4)
+                                        .padding(.trailing, 10)
+                                }
+                            }
+                            
                         }
                         .padding(8)
                         .background(

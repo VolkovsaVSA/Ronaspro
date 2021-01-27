@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct AddTaskView: View {
+struct AddProjectView: View {
     
     init() {
         UITextView.appearance().backgroundColor = .clear
@@ -25,6 +25,9 @@ struct AddTaskView: View {
     
     @State private var alertMessage = (title: "", message: "")
     @State private var showAlert = false
+    
+    @State private var startDate = Date()
+    @State private var endDate = Date()
    
     var body: some View {
         
@@ -40,12 +43,20 @@ struct AddTaskView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     TextEditor(text: $taskText)
-                        .frame(height: 80, alignment: .leading)
+                        .frame(height: 50, alignment: .leading)
                         .overlay(
                             RoundedRectangle(cornerRadius: 6)
                                 .stroke(Color(#colorLiteral(red: 0.921477735, green: 0.9216321707, blue: 0.9214574099, alpha: 1)), lineWidth: 1)
                         )
                         .foregroundColor(taskText == "Добавьте описание" ? Color(#colorLiteral(red: 0.7685510516, green: 0.768681407, blue: 0.7771411538, alpha: 1)) : .primary)
+                    DatePicker(selection: $startDate, in: Date()..., displayedComponents: [.date, .hourAndMinute]) {
+                        Text("Начало")
+                            .fontWeight(.thin)
+                    }
+                    DatePicker(selection: $endDate, in: Date()..., displayedComponents: [.date, .hourAndMinute]) {
+                        Text("Завершение")
+                            .fontWeight(.thin)
+                    }
                     Text("Файлы")
                         .font(.title2)
                         .fontWeight(.bold)
@@ -55,7 +66,11 @@ struct AddTaskView: View {
                                 .fontWeight(.thin)
                         }
                         Spacer()
-                        Button(action: {}, label: {
+                        Button(action: {
+                            
+                            
+                            
+                        }, label: {
                             Image(systemName: "doc.badge.plus")
                                 .resizable()
                                 .frame(width: 22, height: 24, alignment: .center)
@@ -147,7 +162,8 @@ struct AddTaskView: View {
                                          title: taskTitle,
                                          description: taskText,
                                          ownerID: FbManager.Authenticaton.currentUser!.id,
-                                         dateAdded: Date(),
+                                         dateAdded: startDate,
+                                         dateEnd: endDate,
                                          responsibles: Array(responsibles),
                                          answers: [:],
                                          totalCost: 0)
@@ -204,6 +220,6 @@ struct AddTaskView: View {
 
 struct AddTaskView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTaskView()
+        AddProjectView()
     }
 }
