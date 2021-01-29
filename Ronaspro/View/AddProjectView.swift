@@ -65,7 +65,7 @@ struct AddProjectView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     HStack {
-                        VStack {
+                        VStack(alignment: .leading, spacing: 4) {
                             if filesForTask.isEmpty {
                                 Text("Нет файлов")
                                     .fontWeight(.thin)

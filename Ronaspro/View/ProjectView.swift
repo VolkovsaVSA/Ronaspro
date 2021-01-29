@@ -81,10 +81,17 @@ struct ProjectView: View {
                             Spacer()
                             
                             if FbManager.Authenticaton.currentUser!.staffPositon == .manager {
-                                Text("\(calcTaskTotalProgress(task: task))%" )
-                                    .font(.system(size: 16))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color(UIColor.label))
+                                if !task.answers.isEmpty {
+                                    Text("\(calcTaskTotalProgress(task: task))%" )
+                                        .font(.system(size: 16))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color(UIColor.label))
+                                } else {
+                                    Text("0%" )
+                                        .font(.system(size: 16))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color(UIColor.label))
+                                }
                             } else {
                                 if checkAnswer(task: task) {
                                     IconImageView(image: "checkmark.circle.fill", color: Color.green, imageScale: 30)

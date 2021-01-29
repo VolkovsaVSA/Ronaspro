@@ -35,7 +35,7 @@ struct AnswerView: View {
                 Text("Описание: \(task.description)")
                     .fontWeight(.thin)
                     .multilineTextAlignment(.leading)
-                Text("Выполнить до: \(DateFormatter.localizedString(from: task.dateEnd, dateStyle: .medium, timeStyle: .medium))")
+                Text("Выполнить до: \(DateFormatter.localizedString(from: task.dateEnd, dateStyle: .medium, timeStyle: .short))")
                 Text("Файлы:")
                     .fontWeight(.thin)
                 
@@ -54,7 +54,7 @@ struct AnswerView: View {
                         
                     }, label: {
                         Text(file)
-                            .font(.system(size: 12, weight: .thin, design: .default))
+                            .font(.system(size: 12, weight: .regular, design: .default))
                             .padding(6)
                             .background(AppSettings.accentColor.opacity(0.5))
                             .cornerRadius(6)
@@ -174,9 +174,12 @@ struct AnswerView: View {
         })
         .sheet(isPresented: $showQLController) {
             //guard tsfileUrl != nil else {print(#line); return}
-            QuickLookController(url: tsfileUrl!) {
+//            QuickLookController(url: tsfileUrl!, ) {
+//
+//            }
+            QuickLookController(url: tsfileUrl!, onDismiss: {
                 
-            }
+            }, isPresented: $showQLController)
         }
         
     }
