@@ -217,9 +217,3 @@ struct AddProjectView: View {
     }
     
 }
-
-struct AddTaskView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddProjectView()
-    }
-}

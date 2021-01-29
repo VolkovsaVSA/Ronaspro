@@ -14,17 +14,25 @@ struct FbManager {
     static let db = Firestore.firestore()
     
     enum Collections: String {
-        case users, projects, answers
+        case users, projects, answers, chats
+        
+        enum ChatRomsStatic: String {
+            case shareRoom
+        }
     }
     enum UserFileds: String {
         case id, email, name, staffPositon
     }
     enum TaskFileds: String {
-        case id, title, description, ownerID, dateAdded, responsibles, answers, totalCost
+        case id, title, description, ownerID, dateAdded, dateEnd, responsibles, answers, totalCost
     }
     enum AnswerFileds: String {
-        case id, parentTask, responsibleID, totalCost, workNames, workCosts
+        case id, parentTask, totalCost, workNames, workCosts, responsibleID, responsibleName, responsibleEmail, responsibleStaffPositon
     }
+    enum ChatMessageFields: String {
+        case id, userName, userID, message, date
+    }
+    
     
     
     struct Authenticaton {
@@ -207,9 +215,49 @@ struct FbManager {
                 }
                 completion(answers, answerError)
             })
-            
-            
+
         }
-        
+
     }
+    
+    struct Chats {
+        
+        
+        static func sendMessageToChatRomsStatic(message: ChatMessageModel, completion: @escaping (Error?)->Void) {
+            db.collection(Collections.ChatRomsStatic.shareRoom.rawValue).addDocument(data: message.dictionary) { (error) in
+                completion(error)
+            }
+        }
+//        static func getMessage(completion: @escaping ([ChatMessageModel], Error?)->Void) {
+//            db.collection(Collections.ChatRomsStatic.shareRoom.rawValue).getDocuments { (snapshot, error) in
+//                var messages = [ChatMessageModel]()
+//                if let snap = snapshot {
+//                    snap.documents.forEach { doc in
+//                        if let mess = ChatMessageModel(dictionary: doc.data()) {
+//                            messages.append(mess)
+//                        }
+//                    }
+//
+//                }
+//                let sortArray = messages.sorted{$0.date < $1.date}
+//                completion(sortArray, error)
+//            }
+//        }
+        static func shareRoomListener(completion: @escaping([ChatMessageModel])->Void) {
+            db.collection(Collections.ChatRomsStatic.shareRoom.rawValue).addSnapshotListener { (snapshot, error) in
+                
+                if let snap = snapshot {
+                    var messages = [ChatMessageModel]()
+                    snap.documents.forEach { fbMessage in
+                        if let mess = ChatMessageModel(dictionary: fbMessage.data()) {
+                            messages.append(mess)
+                        }
+                    }
+                    let sortArray = messages.sorted{$0.date < $1.date}
+                    completion(sortArray)
+                }
+            }
+        }
+    }
+    
 }

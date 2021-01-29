@@ -68,6 +68,7 @@ struct TaskAnswerModel: Hashable {
         
         if let responsibleStaffPositonInit = dictionary["responsibleStaffPositon"] as? String {
             if let staff = StaffPosition(rawValue: responsibleStaffPositonInit) {
+        
                 responsibleStaffPositon = staff
             } else { return nil }
         } else { return nil }

@@ -36,7 +36,7 @@ struct MainView: View {
                         Text("Профиль")
                     }
                     .tag(1)
-                Text("Message")
+                ChatView()
                     .tabItem {
                         Image(systemName: "envelope.fill")
                         Text("Сообщения")

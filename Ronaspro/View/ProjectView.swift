@@ -121,9 +121,3 @@ struct ProjectView: View {
     }
     
 }
-
-struct MessageView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProjectView()
-    }
-}
