@@ -153,6 +153,9 @@ struct FbManager {
                 }
             }
         }
+        static func deleTask(task: TaskModel) {
+            db.collection(Collections.projects.rawValue).document(task.id).delete()
+        }
         static func addProjectListenerResponsible(id: String, completion: @escaping ([TaskModel], Error?)->Void) {
             var tasks = [TaskModel]()
             db.collection(Collections.projects.rawValue)
@@ -221,28 +224,13 @@ struct FbManager {
     }
     
     struct Chats {
-        
-        
+ 
         static func sendMessageToChatRomsStatic(message: ChatMessageModel, completion: @escaping (Error?)->Void) {
             db.collection(Collections.ChatRomsStatic.shareRoom.rawValue).addDocument(data: message.dictionary) { (error) in
                 completion(error)
             }
         }
-//        static func getMessage(completion: @escaping ([ChatMessageModel], Error?)->Void) {
-//            db.collection(Collections.ChatRomsStatic.shareRoom.rawValue).getDocuments { (snapshot, error) in
-//                var messages = [ChatMessageModel]()
-//                if let snap = snapshot {
-//                    snap.documents.forEach { doc in
-//                        if let mess = ChatMessageModel(dictionary: doc.data()) {
-//                            messages.append(mess)
-//                        }
-//                    }
-//
-//                }
-//                let sortArray = messages.sorted{$0.date < $1.date}
-//                completion(sortArray, error)
-//            }
-//        }
+
         static func shareRoomListener(completion: @escaping([ChatMessageModel])->Void) {
             db.collection(Collections.ChatRomsStatic.shareRoom.rawValue).addSnapshotListener { (snapshot, error) in
                 

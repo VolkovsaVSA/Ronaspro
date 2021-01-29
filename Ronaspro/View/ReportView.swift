@@ -18,7 +18,7 @@ struct ReportView: View {
         
         ZStack {
             LinearGradient(gradient: Gradient(colors: [Color("tabBarColor").opacity(0.1), Color("tabBarColor").opacity(0.5)]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                //            Color(UIColor(red: 0.831, green: 0.82, blue: 0.847, alpha: 1))
+//                           Color(UIColor(red: 0.831, green: 0.82, blue: 0.847, alpha: 1))
                 .ignoresSafeArea()
             VStack(alignment: .leading, spacing: 10) {
                 

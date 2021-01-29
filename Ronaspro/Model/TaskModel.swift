@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 
 struct TaskModel {
@@ -18,21 +19,23 @@ struct TaskModel {
     var responsibles: [String]
     var answers: [String: String]
     var totalCost: Double
-    //var files: [String]
+    var files: Set<String>
     
     var dictionary: [String: Any] {
         return ["id": id,
                 "title": title,
                 "description": description,
                 "ownerID": ownerID,
-                "dateAdded": dateAdded.timeIntervalSince1970,
-                "dateEnd": dateEnd.timeIntervalSince1970,
+                "dateAdded": Timestamp(date: dateAdded),
+                "dateEnd": Timestamp(date: dateEnd),
                 "responsibles": responsibles,
                 "answers": answers,
-                "totalCost": totalCost]
+                "totalCost": totalCost,
+                "files": Array(files)
+        ]
     }
     
-    init(id: String, title: String, description: String, ownerID: String, dateAdded: Date, dateEnd: Date, responsibles: [String], answers: [String: String], totalCost: Double) {
+    init(id: String, title: String, description: String, ownerID: String, dateAdded: Date, dateEnd: Date, responsibles: [String], answers: [String: String], totalCost: Double, files: Set<String>) {
         self.id = id
         self.title = title
         self.description = description
@@ -42,6 +45,7 @@ struct TaskModel {
         self.responsibles = responsibles
         self.answers = answers
         self.totalCost = totalCost
+        self.files = files
     }
     
     init?(dictionary: [String: Any]) {
@@ -54,19 +58,22 @@ struct TaskModel {
         var responsibles: [String]
         var answers: [String: String]
         var totalCost: Double
+        var files: Set<String>
+        
         
        
         if let idInit = dictionary["id"] as? String {id = idInit} else {return nil}
         if let titleInit = dictionary["title"] as? String {title = titleInit} else {return nil}
         if let descriptionInit = dictionary["description"] as? String {description = descriptionInit} else {return nil}
         if let ownerIDInit = dictionary["ownerID"] as? String {ownerID = ownerIDInit} else {return nil}
-        if let dateAddedInit = dictionary["dateAdded"] as? TimeInterval {dateAdded = Date(timeIntervalSince1970: dateAddedInit)} else {dateAdded = Date()}
-        if let dateEndInit = dictionary["dateEnd"] as? TimeInterval {dateEnd = Date(timeIntervalSince1970: dateEndInit)} else {dateEnd = Date()}
+        if let dateAddedInit = dictionary["dateAdded"] as? Timestamp {dateAdded = dateAddedInit.dateValue()} else {dateAdded = Date()}
+        if let dateEndInit = dictionary["dateEnd"] as? Timestamp {dateEnd = dateEndInit.dateValue()} else {dateEnd = Date()}
         if let responsiblesInit = dictionary["responsibles"] as? [String] {responsibles = responsiblesInit} else {responsibles = [String]()}
         if let answersInit = dictionary["answers"] as? [String: String] {answers = answersInit} else {answers = [String: String]()}
         if let totalCostInit = dictionary["totalCost"] as? Double {totalCost = totalCostInit} else {totalCost = 0}
+        if let filesInit = dictionary["files"] as? [String] {files = Set(filesInit)} else {files = Set<String>()}
         
-        self.init(id: id, title: title, description: description, ownerID: ownerID, dateAdded: dateAdded, dateEnd: dateEnd, responsibles: responsibles, answers: answers, totalCost: totalCost)
+        self.init(id: id, title: title, description: description, ownerID: ownerID, dateAdded: dateAdded, dateEnd: dateEnd, responsibles: responsibles, answers: answers, totalCost: totalCost, files: files)
     }
     
     

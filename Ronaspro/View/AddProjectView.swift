@@ -16,6 +16,7 @@ struct AddProjectView: View {
     
     @Environment(\.presentationMode) private var presentationMode
     
+    private let taskID = UUID().uuidString
     @State var taskTitle = ""
     @State var taskText = "Добавьте описание"
     @State var files = [String]()
@@ -28,6 +29,9 @@ struct AddProjectView: View {
     
     @State private var startDate = Date()
     @State private var endDate = Date()
+    
+    @State private var showDocumentPicker = false
+    @State private var filesForTask: Set<LocalFileForFB> = []
    
     var body: some View {
         
@@ -62,13 +66,21 @@ struct AddProjectView: View {
                         .fontWeight(.bold)
                     HStack {
                         VStack {
-                            Text("Нет файлов")
-                                .fontWeight(.thin)
+                            if filesForTask.isEmpty {
+                                Text("Нет файлов")
+                                    .fontWeight(.thin)
+                            }
+                            else {
+                                ForEach(Array(filesForTask), id: \.self) { file in
+                                    Text(file.name)
+                                        .fontWeight(.thin)
+                                }
+                            }
                         }
                         Spacer()
                         Button(action: {
                             
-                            
+                            showDocumentPicker.toggle()
                             
                         }, label: {
                             Image(systemName: "doc.badge.plus")
@@ -157,8 +169,10 @@ struct AddProjectView: View {
                 }),
                                 
                 trailing: Button(action: {
-                    
-                    let task = TaskModel(id: UUID().uuidString,
+
+                    let files = Set(filesForTask.map { $0.name })
+
+                    let task = TaskModel(id: taskID,
                                          title: taskTitle,
                                          description: taskText,
                                          ownerID: FbManager.Authenticaton.currentUser!.id,
@@ -166,19 +180,32 @@ struct AddProjectView: View {
                                          dateEnd: endDate,
                                          responsibles: Array(responsibles),
                                          answers: [:],
-                                         totalCost: 0)
-                    
+                                         totalCost: 0,
+                                         files: files)
+
                     FbManager.Docs.createTask(task: task) {  (title, message)  in
                         alertMessage = (title, message)
+                        
+                        filesForTask.forEach { file in
+                            FbFileManager.putFile(taskID: taskID, fileName: file.name, url: file.path) { (meta, error) in
+                                if let putError = error {
+                                    alertMessage.title = "Ошибка"
+                                    alertMessage.message = "Ошибка загрузки фалов в облако: \(putError.localizedDescription). Повторите ещё раз."
+                                    FbManager.Docs.deleTask(task: task)
+                                }
+                            }
+                        }
+                        
                         showAlert = true
                     }
-                    
+
                 }, label: {
                     Image(systemName: "checkmark.square.fill")
                         .resizable()
                         .frame(width: 20, height: 20, alignment: .center)
                         .foregroundColor(.accentColor)
-                }))
+                })
+            )
             .environment(\.editMode, $editMode)
         }
         .alert(isPresented: $showAlert, content: {
@@ -189,6 +216,11 @@ struct AddProjectView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                   }))
+        })
+        .sheet(isPresented: $showDocumentPicker, content: {
+            DocumentPicker(files: $filesForTask, taskID: taskID)
+                .accentColor(.blue)
+                .ignoresSafeArea()
         })
         .onAppear {
             // remove the placeholder text when keyboard appears

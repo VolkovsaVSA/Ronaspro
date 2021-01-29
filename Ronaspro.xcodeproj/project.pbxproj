@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6809C42125C41720003C1DF9 /* LocalFileForFB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6809C42025C41720003C1DF9 /* LocalFileForFB.swift */; };
+		6809C42425C44960003C1DF9 /* QuickLookController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6809C42325C44960003C1DF9 /* QuickLookController.swift */; };
 		6811175C25BED9F0000FA192 /* AddProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6811175B25BED9F0000FA192 /* AddProjectView.swift */; };
 		6811175F25BEDC46000FA192 /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6811175E25BEDC46000FA192 /* TaskModel.swift */; };
 		6811176225BF3525000FA192 /* ProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6811176125BF3525000FA192 /* ProjectView.swift */; };
@@ -20,6 +22,8 @@
 		6882712525C28E5700AFCB13 /* ChatMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882712425C28E5700AFCB13 /* ChatMessageModel.swift */; };
 		6882714225C2E61100AFCB13 /* ChatRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882714125C2E61100AFCB13 /* ChatRowView.swift */; };
 		6882714525C2F43B00AFCB13 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882714425C2F43B00AFCB13 /* ChatViewModel.swift */; };
+		6882714825C3EB9500AFCB13 /* FbFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882714725C3EB9400AFCB13 /* FbFileManager.swift */; };
+		6882714B25C3EEAA00AFCB13 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882714A25C3EEAA00AFCB13 /* DocumentPicker.swift */; };
 		68EFD17D25BDE6D1009CD298 /* RonasproApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EFD17C25BDE6D1009CD298 /* RonasproApp.swift */; };
 		68EFD18125BDE6D3009CD298 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68EFD18025BDE6D3009CD298 /* Assets.xcassets */; };
 		68EFD18425BDE6D3009CD298 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68EFD18325BDE6D3009CD298 /* Preview Assets.xcassets */; };
@@ -41,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		1CE1F9FB7793298A1215BE27 /* Pods-Ronaspro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ronaspro.release.xcconfig"; path = "Target Support Files/Pods-Ronaspro/Pods-Ronaspro.release.xcconfig"; sourceTree = "<group>"; };
+		6809C42025C41720003C1DF9 /* LocalFileForFB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileForFB.swift; sourceTree = "<group>"; };
+		6809C42325C44960003C1DF9 /* QuickLookController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLookController.swift; sourceTree = "<group>"; };
 		6811175B25BED9F0000FA192 /* AddProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectView.swift; sourceTree = "<group>"; };
 		6811175E25BEDC46000FA192 /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		6811176125BF3525000FA192 /* ProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectView.swift; sourceTree = "<group>"; };
@@ -54,6 +60,8 @@
 		6882712425C28E5700AFCB13 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
 		6882714125C2E61100AFCB13 /* ChatRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRowView.swift; sourceTree = "<group>"; };
 		6882714425C2F43B00AFCB13 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		6882714725C3EB9400AFCB13 /* FbFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FbFileManager.swift; sourceTree = "<group>"; };
+		6882714A25C3EEAA00AFCB13 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		68EFD17925BDE6D1009CD298 /* Ronaspro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ronaspro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68EFD17C25BDE6D1009CD298 /* RonasproApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RonasproApp.swift; sourceTree = "<group>"; };
 		68EFD18025BDE6D3009CD298 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,9 +108,9 @@
 			isa = PBXGroup;
 			children = (
 				68EFD19425BDE727009CD298 /* AppDelegate.swift */,
-				68EFD1E525BE2284009CD298 /* StaffPosition.swift */,
 				68EFD1EB25BE265D009CD298 /* ActiveSheet.swift */,
 				6811179125C00791000FA192 /* AppSettings.swift */,
+				68EFD1E525BE2284009CD298 /* StaffPosition.swift */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -111,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				68EFD19125BDE71B009CD298 /* FbManager.swift */,
+				6882714725C3EB9400AFCB13 /* FbFileManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -192,6 +201,8 @@
 				68EFD22025BE3CF1009CD298 /* StaffPositionListView.swift */,
 				68EFD1CE25BE0843009CD298 /* BigLogoView.swift */,
 				6882711D25C129B800AFCB13 /* IconImageView.swift */,
+				6882714A25C3EEAA00AFCB13 /* DocumentPicker.swift */,
+				6809C42325C44960003C1DF9 /* QuickLookController.swift */,
 			);
 			path = SupportView;
 			sourceTree = "<group>";
@@ -203,6 +214,7 @@
 				6811175E25BEDC46000FA192 /* TaskModel.swift */,
 				6811177825BFDD01000FA192 /* TaskAnswerModel.swift */,
 				6882712425C28E5700AFCB13 /* ChatMessageModel.swift */,
+				6809C42025C41720003C1DF9 /* LocalFileForFB.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -335,6 +347,7 @@
 				6811179B25C01A34000FA192 /* AnswerViewModel.swift in Sources */,
 				6882712225C28E3700AFCB13 /* ChatView.swift in Sources */,
 				6811179225C00791000FA192 /* AppSettings.swift in Sources */,
+				6809C42125C41720003C1DF9 /* LocalFileForFB.swift in Sources */,
 				6811175C25BED9F0000FA192 /* AddProjectView.swift in Sources */,
 				68EFD1DF25BE1C48009CD298 /* ProfileView.swift in Sources */,
 				6882711E25C129B800AFCB13 /* IconImageView.swift in Sources */,
@@ -342,6 +355,7 @@
 				68EFD1D725BE106C009CD298 /* InputTextView.swift in Sources */,
 				68EFD18F25BDE6FA009CD298 /* LoginView.swift in Sources */,
 				68EFD22125BE3CF1009CD298 /* StaffPositionListView.swift in Sources */,
+				6882714B25C3EEAA00AFCB13 /* DocumentPicker.swift in Sources */,
 				68EFD1F025BE26C0009CD298 /* MyUserModel.swift in Sources */,
 				68EFD19225BDE71B009CD298 /* FbManager.swift in Sources */,
 				68EFD1EC25BE265D009CD298 /* ActiveSheet.swift in Sources */,
@@ -351,8 +365,10 @@
 				68EFD1E625BE2284009CD298 /* StaffPosition.swift in Sources */,
 				6811176225BF3525000FA192 /* ProjectView.swift in Sources */,
 				6811175F25BEDC46000FA192 /* TaskModel.swift in Sources */,
+				6882714825C3EB9500AFCB13 /* FbFileManager.swift in Sources */,
 				6811177C25BFEFC8000FA192 /* AnswerView.swift in Sources */,
 				68EFD1CF25BE0843009CD298 /* BigLogoView.swift in Sources */,
+				6809C42425C44960003C1DF9 /* QuickLookController.swift in Sources */,
 				68EFD17D25BDE6D1009CD298 /* RonasproApp.swift in Sources */,
 				6811177925BFDD01000FA192 /* TaskAnswerModel.swift in Sources */,
 				6882712525C28E5700AFCB13 /* ChatMessageModel.swift in Sources */,

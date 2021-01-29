@@ -17,7 +17,6 @@ struct ProjectView: View {
     fileprivate func getTasks() {
         if FbManager.Authenticaton.currentUser!.staffPositon == .manager {
             FbManager.Docs.addProjectListenerOwner(id: FbManager.Authenticaton.currentUser!.id) { (tasks, error) in
-                
                 userTasks = tasks
                 if let taskError = error {
                     errorsMessage = taskError.localizedDescription
@@ -25,7 +24,6 @@ struct ProjectView: View {
             }
         } else {
             FbManager.Docs.addProjectListenerResponsible(id: FbManager.Authenticaton.currentUser!.id) { (tasks, error) in
-
                 userTasks = tasks
                 if let taskError = error {
                     errorsMessage = taskError.localizedDescription

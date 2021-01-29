@@ -28,9 +28,3 @@ struct BigLogoView: View {
         }
     }
 }
-//
-//struct BigLogoView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BigLogoView(width: 100, height: 100, font: .title2, textPadding: 0, textLogo: "РОНАСПРО")
-//    }
-//}

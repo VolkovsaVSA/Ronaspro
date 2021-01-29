@@ -15,8 +15,6 @@ struct MainView: View {
     }
     
     @Environment(\.presentationMode) private var presentationMode
-//    let screenWidth = UIScreen.main.bounds.width
-//    let logoSize: CGFloat = 26
 
     @State var selectedTab = 1
     
@@ -50,7 +48,7 @@ struct MainView: View {
                         .offset(x: AppSettings.screenWidth/2 - AppSettings.NavigationBar.logoSize * 2)
                        ,
                     trailing:
-                        Button("Logout") {
+                        Button("Выход") {
                             FbManager.Authenticaton.logOut { result in
                                 switch result {
                                 case .success(_):

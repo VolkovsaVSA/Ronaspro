@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+fileprivate var tsfileUrl: URL?
+
 struct AnswerView: View {
     
     @Environment(\.presentationMode) private var presentationMode
@@ -16,9 +18,12 @@ struct AnswerView: View {
     var task: TaskModel
     @ObservedObject var answer = AnswerViewModel.shared
     
-    @State var showAlert = false
-    @State var alertTitle = ""
-    @State var alertMessage = ""
+    @State private var showAlert = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+    
+    @State private var showQLController = false
+    
     
     var body: some View {
         
@@ -31,6 +36,35 @@ struct AnswerView: View {
                     .fontWeight(.thin)
                     .multilineTextAlignment(.leading)
                 Text("Выполнить до: \(DateFormatter.localizedString(from: task.dateEnd, dateStyle: .medium, timeStyle: .medium))")
+                Text("Файлы:")
+                    .fontWeight(.thin)
+                
+                ForEach(Array(task.files), id: \.self) { file in
+                    
+                    Button(action: {
+                        
+                        FbFileManager.downloadFile(taskID: task.id, fileName: file) { (url, error) in
+                            if let localUrl = url {
+                                tsfileUrl = localUrl
+                                if tsfileUrl != nil {
+                                    showQLController = true
+                                }
+                            }
+                        }
+                        
+                    }, label: {
+                        Text(file)
+                            .font(.system(size: 12, weight: .thin, design: .default))
+                            .padding(6)
+                            .background(AppSettings.accentColor.opacity(0.5))
+                            .cornerRadius(6)
+                            .shadow(color: Color(UIColor.tertiaryLabel), radius: 4, x: 4, y: 4)
+                    })
+                    .foregroundColor(Color.white)
+                    
+                    
+                }
+                    
             }
             .padding(.horizontal)
             
@@ -138,7 +172,12 @@ struct AnswerView: View {
                 presentationMode.wrappedValue.dismiss()
             }))
         })
-        
+        .sheet(isPresented: $showQLController) {
+            //guard tsfileUrl != nil else {print(#line); return}
+            QuickLookController(url: tsfileUrl!) {
+                
+            }
+        }
         
     }
 }
