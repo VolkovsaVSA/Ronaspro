@@ -24,6 +24,11 @@ class AnswerViewModel: ObservableObject {
         workNames.append("")
         workCosts.append("")
     }
+    func deleteLastRow() {
+        print(workNames.count)
+        workNames.removeFirst()
+        workCosts.removeFirst()
+    }
     
     func totalCost()->Double {
         var total = 0.0

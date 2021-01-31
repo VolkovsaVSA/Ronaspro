@@ -13,27 +13,31 @@ struct LoginView: View {
     @State var repeatPassword = ""
     @State var hidePass = true
     @State var registrationForm = false
-    
     @State var alertMessage = ""
     @State var showAlert = false
-    
     @State var stafPosition = StaffPosition.manager
-   
     @State private var sheet: ActiveSheet?
+    
+    @State private var showActivity = false
+    
     
     private func createUser() {
         FbManager.Authenticaton.registrUserWithEmail(name: name, email: email, password: password, repeatPassword: repeatPassword, staffPosition: stafPosition) { (user, message) in
+            
             if let currentUser = user {
-                
                 FbManager.Docs.getUserData(id: currentUser.uid) { err in
                     if let userError = err {
                         alertMessage = userError.localizedDescription
                     }
-                    
                     alertMessage = message
+                    showActivity = false
                     showAlert = true
                 }
                 
+            } else {
+                alertMessage = message
+                showActivity = false
+                showAlert = true
             }
             
         }
@@ -47,9 +51,10 @@ struct LoginView: View {
                 FbManager.Docs.getUserData(id: currentUser.uid) { err in
                     if let userError = err {
                         alertMessage = userError.localizedDescription
+                        showActivity = false
                         showAlert = true
                     } else {
-                        //FbManager.Authenticaton.currentUser = currentUser
+                        showActivity = false
                         sheet = .showMainView
                     }
                 }
@@ -57,6 +62,7 @@ struct LoginView: View {
                 
             } else {
                 alertMessage = error!.localizedDescription
+                showActivity = false
                 showAlert = true
             }
         }
@@ -72,41 +78,55 @@ struct LoginView: View {
             BigLogoView(width: 100, height: 100, font: .title2, textPadding: 4, textLogo: "РОНАСПРРО")
             .padding(.vertical, 40)
             
-            VStack(spacing: 12) {
-                InputTextView(title: "E-mail",
-                              titleDescription: "Введите адрес электронной почты",
-                              keyboardType: .emailAddress,
-                              autocapitalization: .none,
-                              text: $email)
-                InputPasswordView(title: "Пароль",
-                                  titleDescription: "Введите пароль", hidePass: hidePass, password: $password)
-                if registrationForm {
-                    InputPasswordView(title: "Повторите пароль",
-                                      titleDescription: "Повторно введите пароль", hidePass: hidePass, password: $repeatPassword)
-                    InputTextView(title: "Имя",
-                                  titleDescription: "Введите своё имя",
-                                  keyboardType: .default,
-                                  autocapitalization: .sentences,
-                                  text: $name)
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Должность")
-                            .font(.system(size: 12, weight: .regular, design: .default))
-                       
-                        Button(action: {
-                            sheet = .staffPositionList
-                        }, label: {
-                            Text(stafPosition.rawValue)
-                        })
-                        Divider()
+            ZStack {
+                if showActivity {
+                    ActivityView()
+                } else {
+                    
+                }
+                
+                
+                VStack(spacing: 12) {
+                    InputTextView(title: "E-mail",
+                                  titleDescription: "Введите адрес электронной почты",
+                                  keyboardType: .emailAddress,
+                                  autocapitalization: .none,
+                                  text: $email)
+                    InputPasswordView(title: "Пароль",
+                                      titleDescription: "Введите пароль", hidePass: hidePass, password: $password)
+                    if registrationForm {
+                        InputPasswordView(title: "Повторите пароль",
+                                          titleDescription: "Повторно введите пароль", hidePass: hidePass, password: $repeatPassword)
+                        InputTextView(title: "Имя",
+                                      titleDescription: "Введите своё имя",
+                                      keyboardType: .default,
+                                      autocapitalization: .sentences,
+                                      text: $name)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Должность")
+                                .font(.system(size: 12, weight: .regular, design: .default))
+                           
+                            Button(action: {
+                                sheet = .staffPositionList
+                            }, label: {
+                                Text(stafPosition.rawValue)
+                            })
+                            Divider()
+                        }
                     }
+                    
+                    
                 }
                 
                 
             }
+            
+            
             HStack {
                 Spacer()
                 VStack(alignment: .trailing, spacing: 6) {
                     Button("OK") {
+                        showActivity = true
                         if registrationForm {
                             createUser()
                         } else {

@@ -61,23 +61,10 @@ struct AddProjectView: View {
                         Text("Завершение")
                             .fontWeight(.thin)
                     }
-                    Text("Файлы")
-                        .font(.title2)
-                        .fontWeight(.bold)
                     HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            if filesForTask.isEmpty {
-                                Text("Нет файлов")
-                                    .fontWeight(.thin)
-                            }
-                            else {
-                                ForEach(Array(filesForTask), id: \.self) { file in
-                                    Text(file.name)
-                                        .fontWeight(.thin)
-                                }
-                            }
-                        }
-                        Spacer()
+                        Text("Файлы")
+                            .font(.title2)
+                            .fontWeight(.bold)
                         Button(action: {
                             
                             showDocumentPicker.toggle()
@@ -87,8 +74,32 @@ struct AddProjectView: View {
                                 .resizable()
                                 .frame(width: 22, height: 24, alignment: .center)
                                 .foregroundColor(.accentColor)
-                            
                         })
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        if filesForTask.isEmpty {
+                            Text("Нет файлов")
+                                .fontWeight(.thin)
+                        }
+                        else {
+                            ForEach(Array(filesForTask), id: \.self) { file in
+                                HStack {
+                                    Text(file.name)
+                                        .fontWeight(.thin)
+                                    Spacer()
+                                    Button {
+                                        if let deleteItem = filesForTask.firstIndex(of: file) {
+                                            filesForTask.remove(at: deleteItem)
+                                        }
+                                    } label: {
+                                        Image(systemName: "clear.fill")
+                                            .foregroundColor(Color(UIColor(red: 1, green: 0.299, blue: 0.235, alpha: 1)))
+                                    }
+                                }
+
+                            }
+                        }
                     }
                 }
                 .onTapGesture {

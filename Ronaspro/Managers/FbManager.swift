@@ -124,9 +124,31 @@ struct FbManager {
             db.collection(Collections.users.rawValue).document(id).getDocument { (snap, error) in
                 if let data = snap?.data() {
                     FbManager.Authenticaton.currentUser = MyUserModel(dictionary: data)
-                    //print(FbManager.Authenticaton.currentUser.debugDescription)
                 }
                 completion(error)
+            }
+        }
+        static func getResponsibleUsers(task: TaskModel, completion: @escaping ([MyUserModel], Error?)->Void) {
+            var respUsers = [MyUserModel]()
+            var retError: Error?
+            let group = DispatchGroup()
+            task.responsibles.forEach { respID in
+                group.enter()
+                db.collection(Collections.users.rawValue).document(respID).getDocument { (snap, error) in
+                    if let getError = error {
+                        retError = getError
+                    }
+                    if let getSnapshot = snap {
+                        if let user = MyUserModel(dictionary: getSnapshot.data()!) {
+                            respUsers.append(user)
+                        }
+                    }
+                    group.leave()
+                }
+                
+            }
+            group.notify(queue: DispatchQueue.main) {
+                completion(respUsers, retError)
             }
         }
         static func getAllUsers(completion: @escaping ([MyUserModel])->Void) {
@@ -180,7 +202,7 @@ struct FbManager {
             db.collection(Collections.projects.rawValue)
                 .whereField(FbManager.TaskFileds.ownerID.rawValue, isEqualTo: id)
                 .addSnapshotListener { (snapshot, error) in
-                    let sem = DispatchSemaphore(value: 0)
+                    let sem = DispatchSemaphore(value: 1)
                     if let snap = snapshot {
                         tasks = []
                         for x in snap.documents {

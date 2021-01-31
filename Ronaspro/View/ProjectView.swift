@@ -21,13 +21,17 @@ struct ProjectView: View {
                 if let taskError = error {
                     errorsMessage = taskError.localizedDescription
                 }
+                
             }
         } else {
             FbManager.Docs.addProjectListenerResponsible(id: FbManager.Authenticaton.currentUser!.id) { (tasks, error) in
+                
+                
                 userTasks = tasks
                 if let taskError = error {
                     errorsMessage = taskError.localizedDescription
                 }
+
             }
         }
     }
@@ -66,7 +70,7 @@ struct ProjectView: View {
                 NavigationLink(
                     destination: createProjectDetail(task: task),
                     label: {
-                        HStack {
+                        HStack(spacing: 8) {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(DateFormatter.localizedString(from: task.dateAdded, dateStyle: .medium, timeStyle: .short))
                                     .font(.system(size: 10))
@@ -76,22 +80,40 @@ struct ProjectView: View {
                                 Text("Описание: \(task.description)")
                                     .font(.system(size: 12))
                                     .fontWeight(.thin)
+                                    .lineLimit(1)
+                                    .frame(width: AppSettings.screenWidth - 120, alignment: .leading)
                             }
                             .foregroundColor(Color(UIColor.label))
+                            
                             Spacer()
                             
+                            
+                            
                             if FbManager.Authenticaton.currentUser!.staffPositon == .manager {
-                                if !task.answers.isEmpty {
-                                    Text("\(calcTaskTotalProgress(task: task))%" )
-                                        .font(.system(size: 16))
-                                        .fontWeight(.bold)
-                                        .foregroundColor(Color(UIColor.label))
-                                } else {
-                                    Text("0%" )
-                                        .font(.system(size: 16))
-                                        .fontWeight(.bold)
-                                        .foregroundColor(Color(UIColor.label))
+                                
+                                ZStack {
+                                    Circle()
+                                        .stroke(lineWidth: 6)
+                                    Circle()
+                                        .trim(from: 0.0, to: CGFloat(calcTaskTotalProgress(task: task))/100)
+                                        .stroke(style: StrokeStyle(lineWidth: 6,
+                                                                   lineCap: .round,
+                                                                   lineJoin: .round))
+                                        .foregroundColor(.green)
+                                    if !task.answers.isEmpty {
+                                        Text("\(calcTaskTotalProgress(task: task))%" )
+                                            .font(.system(size: 12))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color(UIColor.label))
+                                    } else {
+                                        Text("0%" )
+                                            .font(.system(size: 12))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color(UIColor.label))
+                                    }
                                 }
+                                .padding(4)
+                                //.offset(x: AppSettings.screenWidth/6)
                             } else {
                                 if checkAnswer(task: task) {
                                     IconImageView(image: "checkmark.circle.fill", color: Color.green, imageScale: 30)
@@ -113,7 +135,8 @@ struct ProjectView: View {
                         .clipped()
                         .shadow(color: Color(UIColor.tertiaryLabel), radius: 4, x: 4, y: 4)
                     })
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
             }
         }
         
@@ -122,6 +145,8 @@ struct ProjectView: View {
                 getTasks()
                 getTaskBool = true
             }
+            
+            
         }
     }
     

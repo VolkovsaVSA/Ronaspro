@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		6809C42125C41720003C1DF9 /* LocalFileForFB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6809C42025C41720003C1DF9 /* LocalFileForFB.swift */; };
 		6809C42425C44960003C1DF9 /* QuickLookController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6809C42325C44960003C1DF9 /* QuickLookController.swift */; };
+		6809C46525C5D01C003C1DF9 /* ReportDateilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6809C46425C5D01C003C1DF9 /* ReportDateilView.swift */; };
+		6809C46825C6974A003C1DF9 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6809C46725C6974A003C1DF9 /* ActivityView.swift */; };
+		6809C46B25C6FE51003C1DF9 /* ReportAnswerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6809C46A25C6FE50003C1DF9 /* ReportAnswerRow.swift */; };
 		6811175C25BED9F0000FA192 /* AddProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6811175B25BED9F0000FA192 /* AddProjectView.swift */; };
 		6811175F25BEDC46000FA192 /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6811175E25BEDC46000FA192 /* TaskModel.swift */; };
 		6811176225BF3525000FA192 /* ProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6811176125BF3525000FA192 /* ProjectView.swift */; };
@@ -47,6 +50,9 @@
 		1CE1F9FB7793298A1215BE27 /* Pods-Ronaspro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ronaspro.release.xcconfig"; path = "Target Support Files/Pods-Ronaspro/Pods-Ronaspro.release.xcconfig"; sourceTree = "<group>"; };
 		6809C42025C41720003C1DF9 /* LocalFileForFB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileForFB.swift; sourceTree = "<group>"; };
 		6809C42325C44960003C1DF9 /* QuickLookController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLookController.swift; sourceTree = "<group>"; };
+		6809C46425C5D01C003C1DF9 /* ReportDateilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDateilView.swift; sourceTree = "<group>"; };
+		6809C46725C6974A003C1DF9 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		6809C46A25C6FE50003C1DF9 /* ReportAnswerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAnswerRow.swift; sourceTree = "<group>"; };
 		6811175B25BED9F0000FA192 /* AddProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectView.swift; sourceTree = "<group>"; };
 		6811175E25BEDC46000FA192 /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		6811176125BF3525000FA192 /* ProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectView.swift; sourceTree = "<group>"; };
@@ -188,6 +194,8 @@
 				6811175B25BED9F0000FA192 /* AddProjectView.swift */,
 				6811177B25BFEFC8000FA192 /* AnswerView.swift */,
 				6882711A25C124D900AFCB13 /* ReportView.swift */,
+				6809C46A25C6FE50003C1DF9 /* ReportAnswerRow.swift */,
+				6809C46425C5D01C003C1DF9 /* ReportDateilView.swift */,
 				68EFD1D925BE126D009CD298 /* SupportView */,
 			);
 			path = View;
@@ -203,6 +211,7 @@
 				6882711D25C129B800AFCB13 /* IconImageView.swift */,
 				6882714A25C3EEAA00AFCB13 /* DocumentPicker.swift */,
 				6809C42325C44960003C1DF9 /* QuickLookController.swift */,
+				6809C46725C6974A003C1DF9 /* ActivityView.swift */,
 			);
 			path = SupportView;
 			sourceTree = "<group>";
@@ -349,6 +358,7 @@
 				6811179225C00791000FA192 /* AppSettings.swift in Sources */,
 				6809C42125C41720003C1DF9 /* LocalFileForFB.swift in Sources */,
 				6811175C25BED9F0000FA192 /* AddProjectView.swift in Sources */,
+				6809C46525C5D01C003C1DF9 /* ReportDateilView.swift in Sources */,
 				68EFD1DF25BE1C48009CD298 /* ProfileView.swift in Sources */,
 				6882711E25C129B800AFCB13 /* IconImageView.swift in Sources */,
 				6882714225C2E61100AFCB13 /* ChatRowView.swift in Sources */,
@@ -361,7 +371,9 @@
 				68EFD1EC25BE265D009CD298 /* ActiveSheet.swift in Sources */,
 				6882711B25C124D900AFCB13 /* ReportView.swift in Sources */,
 				68EFD19525BDE727009CD298 /* AppDelegate.swift in Sources */,
+				6809C46B25C6FE51003C1DF9 /* ReportAnswerRow.swift in Sources */,
 				68EFD1C625BDF183009CD298 /* MainView.swift in Sources */,
+				6809C46825C6974A003C1DF9 /* ActivityView.swift in Sources */,
 				68EFD1E625BE2284009CD298 /* StaffPosition.swift in Sources */,
 				6811176225BF3525000FA192 /* ProjectView.swift in Sources */,
 				6811175F25BEDC46000FA192 /* TaskModel.swift in Sources */,

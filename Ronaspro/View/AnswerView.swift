@@ -26,65 +26,62 @@ struct AnswerView: View {
     
     
     var body: some View {
-        
-        VStack(alignment: .leading, spacing: 10) {
-            
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Проект:  \(task.title)")
-                    .font(.title3)
-                Text("Описание: \(task.description)")
-                    .fontWeight(.thin)
-                    .multilineTextAlignment(.leading)
-                Text("Выполнить до: \(DateFormatter.localizedString(from: task.dateEnd, dateStyle: .medium, timeStyle: .short))")
-                Text("Файлы:")
-                    .fontWeight(.thin)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 10) {
                 
-                ForEach(Array(task.files), id: \.self) { file in
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Проект:  \(task.title)")
+                        .font(.title3)
+                    Text("Описание: \(task.description)")
+                        .fontWeight(.thin)
+                        .multilineTextAlignment(.leading)
+                    Text("Выполнить до: \(DateFormatter.localizedString(from: task.dateEnd, dateStyle: .medium, timeStyle: .short))")
+                    Text("Файлы:")
+                        .fontWeight(.thin)
                     
-                    Button(action: {
+                    ForEach(Array(task.files), id: \.self) { file in
                         
-                        FbFileManager.downloadFile(taskID: task.id, fileName: file) { (url, error) in
-                            if let localUrl = url {
-                                tsfileUrl = localUrl
-                                if tsfileUrl != nil {
-                                    showQLController = true
+                        Button(action: {
+                            FbFileManager.downloadFile(taskID: task.id, fileName: file) { (url, error) in
+                                if let localUrl = url {
+                                    tsfileUrl = localUrl
+                                    if tsfileUrl != nil {
+                                        showQLController = true
+                                    }
                                 }
                             }
-                        }
+                            
+                        }, label: {
+                            Text(file)
+                                .font(.system(size: 12, weight: .regular, design: .default))
+                                .padding(6)
+                                .background(AppSettings.accentColor.opacity(0.5))
+                                .cornerRadius(6)
+                                .shadow(color: Color(UIColor.tertiaryLabel), radius: 4, x: 4, y: 4)
+                        })
+                        .foregroundColor(Color.white)
+                    }
                         
-                    }, label: {
-                        Text(file)
-                            .font(.system(size: 12, weight: .regular, design: .default))
-                            .padding(6)
-                            .background(AppSettings.accentColor.opacity(0.5))
-                            .cornerRadius(6)
-                            .shadow(color: Color(UIColor.tertiaryLabel), radius: 4, x: 4, y: 4)
-                    })
-                    .foregroundColor(Color.white)
-                    
-                    
                 }
-                    
-            }
-            .padding(.horizontal)
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Работы по проекту:")
-                    .padding(.top)
-                Divider()
-                VStack {
-                    HStack {
-                        Text("Наименование работ")
-                            .fontWeight(.bold)
-                        Spacer()
-                        Text("Стоимость")
-                            .fontWeight(.bold)
+                .padding(.horizontal)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Работы по проекту:")
+                        .padding(.top)
+                    Divider()
+                    VStack {
+                        HStack {
+                            Text("Наименование работ")
+                                .fontWeight(.bold)
+                            Spacer()
+                            Text("Стоимость")
+                                .fontWeight(.bold)
+                        }
                     }
                 }
-            }
-            .padding(.horizontal)
-            
-            List {
+                .padding(.horizontal)
+                
+                
                 ForEach(AnswerViewModel.shared.workNames.indices, id:\.self) { index in
                     HStack {
                         TextField(defaultRow.workName, text: $answer.workNames[index])
@@ -95,45 +92,97 @@ struct AnswerView: View {
                             .multilineTextAlignment(.trailing)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .frame(maxWidth: AppSettings.screenWidth * (1/4))
-                        
                     }
                 }
                 .onDelete(perform: { indexSet in
                     answer.workNames.remove(atOffsets: indexSet)
                     answer.workCosts.remove(atOffsets: indexSet)
                 })
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .listRowInsets(EdgeInsets())
-                .background(Color.white)
+                .padding(.horizontal)
+                HStack {
+                    Button(action: {
+                        withAnimation {
+                            answer.addRow()
+                        }
+                    }, label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("Добавить строку")
+                        }
+                    })
+                    Spacer()
+//                    Button(action: {
+//                        withAnimation {
+//
+//
+//                        }
+//                    }, label: {
+//                        HStack {
+//                            Image(systemName: "minus.circle.fill")
+//                                .foregroundColor(.red)
+//                            Text("Удалить строку")
+//                        }
+//                    })
+                }
                 
-                Button(action: {
-                    withAnimation {
-                        answer.addRow()
-                    }
-                }, label: {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Добавить строку")
-                    }
-                })
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .listRowInsets(EdgeInsets())
-                .background(Color.white)
+                .padding(.horizontal)
+
+                
+                Spacer()
+                
+                
+    //            List {
+    //                ForEach(AnswerViewModel.shared.workNames.indices, id:\.self) { index in
+    //                    HStack {
+    //                        TextField(defaultRow.workName, text: $answer.workNames[index])
+    //                            .textFieldStyle(RoundedBorderTextFieldStyle())
+    //                            .frame(maxWidth: AppSettings.screenWidth * (3/4))
+    //                        Spacer()
+    //                        TextField(defaultRow.workCost, text: $answer.workCosts[index])
+    //                            .multilineTextAlignment(.trailing)
+    //                            .textFieldStyle(RoundedBorderTextFieldStyle())
+    //                            .frame(maxWidth: AppSettings.screenWidth * (1/4))
+    //                    }
+    //
+    //                }
+//                    .onDelete(perform: { indexSet in
+//                        answer.workNames.remove(atOffsets: indexSet)
+//                        answer.workCosts.remove(atOffsets: indexSet)
+//                    })
+    //                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+    //                .listRowInsets(EdgeInsets())
+    //                .background(Color.white)
+    //
+    //                Button(action: {
+    //                    withAnimation {
+    //                        answer.addRow()
+    //                    }
+    //                }, label: {
+    //                    HStack {
+    //                        Image(systemName: "plus.circle.fill")
+    //                        Text("Добавить строку")
+    //                    }
+    //                })
+    //                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+    //                .listRowInsets(EdgeInsets())
+    //                .background(Color.white)
+    //
+    //            }
+                //.padding(.horizontal)
+                //.listStyle(PlainListStyle())
+                HStack {
+                    Text("Итогавая стоимость")
+                    Spacer()
+                    Text(answer.totalCost().description)
+                }
+                .padding()
+                .font(.system(size: 20, weight: .bold, design: .default))
                 
             }
             
-            //.listStyle(SidebarListStyle())
-            .padding(.horizontal)
-            //.listStyle(PlainListStyle())
-            HStack {
-                Text("Итогавая стоимость")
-                Spacer()
-                Text(answer.totalCost().description)
-            }
-            .padding()
-            .font(.system(size: 20, weight: .bold, design: .default))
             
         }
+        
         .navigationBarTitle("Расчёт стоимости")
         .navigationBarItems(
             trailing:
@@ -173,13 +222,14 @@ struct AnswerView: View {
             }))
         })
         .sheet(isPresented: $showQLController) {
-            //guard tsfileUrl != nil else {print(#line); return}
-//            QuickLookController(url: tsfileUrl!, ) {
-//
-//            }
             QuickLookController(url: tsfileUrl!, onDismiss: {
-                
             }, isPresented: $showQLController)
+        }
+        .onDisappear() {
+            answer.workNames = []
+            answer.workCosts = []
+            answer.workNames.append("")
+            answer.workCosts.append("")
         }
         
     }

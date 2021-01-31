@@ -28,7 +28,6 @@ struct ChatView: View {
                     }
                     .onChange(of: chatMessages.count) { _ in
                         scrollProxy.scrollTo(chatMessages.last?.id, anchor: .bottom)
-                        print(#line)
                     }
                     
                 }
@@ -40,7 +39,7 @@ struct ChatView: View {
                 ZStack{
                     RoundedRectangle(cornerRadius: 6)
                         .frame(maxHeight: 30)
-                        .foregroundColor(Color(UIColor(red: 0.831, green: 0.82, blue: 0.847, alpha: 1)))
+                        .foregroundColor(Color(UIColor.systemGray6))
                     TextField("Сообщение", text: $textMessage)
                         .padding(.horizontal, 4)
                 }

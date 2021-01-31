@@ -12,7 +12,7 @@ struct ChatRowView: View {
     @State var message: ChatMessageModel
     
     fileprivate func isCurrnetUser(message: ChatMessageModel)->Bool {
-        return (message.userID == FbManager.Authenticaton.currentUser!.id)
+        return (message.userID == FbManager.Authenticaton.currentUser?.id)
     }
     
     var body: some View {
@@ -32,7 +32,7 @@ struct ChatRowView: View {
             }
             .foregroundColor(.white)
             .padding(6)
-            .background(isCurrnetUser(message: message) ? AppSettings.accentColor : Color.green)
+            .background(isCurrnetUser(message: message) ? AppSettings.accentColor : Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
             .cornerRadius(10)
             if !isCurrnetUser(message: message) {
                 Spacer()
