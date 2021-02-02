@@ -15,6 +15,7 @@ struct LoginView: View {
     @State var registrationForm = false
     @State var alertMessage = ""
     @State var showAlert = false
+    @State var resetPassAlertError = true
     @State var stafPosition = StaffPosition.manager
     @State private var sheet: ActiveSheet?
     
@@ -138,9 +139,34 @@ struct LoginView: View {
                     .background(Color.accentColor)
                     .foregroundColor(.white)
                     .cornerRadius(12)
-                    Text("Забыли пароль?")
-                        .font(.system(size: 12, weight: .regular, design: .default))
-                        .underline()
+                    
+                    Button {
+                        showActivity = true
+                        if email != "" {
+                            Auth.auth().sendPasswordReset(withEmail: email) { error in
+                                if let resetPassError = error {
+                                    alertMessage = "Ошибка восстановления праоля: " + resetPassError.localizedDescription
+                                    resetPassAlertError = true
+                                } else {
+                                    resetPassAlertError = false
+                                    alertMessage = "Письмо для сброса пароля отпралено вам на почту"
+                                }
+                                showActivity = false
+                                showAlert = true
+                            }
+                        } else {
+                            alertMessage = "Не указана почта"
+                            showActivity = false
+                            showAlert = true
+                        }
+                        
+                    } label: {
+                        Text("Забыли пароль?")
+                            .font(.system(size: 12, weight: .regular, design: .default))
+                            .underline()
+                    }
+
+                    
                 }
             }
             Spacer()
@@ -181,7 +207,7 @@ struct LoginView: View {
             }
         }
         .alert(isPresented: $showAlert, content: {
-            Alert(title: Text(FbManager.Authenticaton.currentUser != nil ? "Успех" : "Ошибка"),
+            Alert(title: Text(FbManager.Authenticaton.currentUser != nil ? "Успех" : resetPassAlertError ? "Ошибка" : "Внимание"),
                   message: Text(alertMessage),
                   dismissButton: .default(Text("OK"), action: {
                     if FbManager.Authenticaton.currentUser != nil {
